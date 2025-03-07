@@ -1,0 +1,15 @@
+Group members:
+- Michele Nicoletti, 1886646
+- Lorenzo Pecorari, 1885161
+
+Type of project: 
+ - usage of MongoDB as tool (5th idea among the possible ones)
+
+Description of dataset:
+the following dataset contains information about all the previous 74 Formula 1 championships; in particular, information are stored as csv files and they are related to circuits, constructors, drivers, race-weekend data (race results, qualifying, ...) and seasons
+
+Brief description of the aim of the project:
+by using MongoDB, it is wished to achieve knowledge about that tool for storing efficeintly storing and accessing the above described dataset and also an analysis on them. Some examples of these analysis can be related to the performances of a constructor during a season, the average points scored for each driver during all the years it raceses for the same team, the final ranking of the season compared to the ranking of the average position of the drivers and the difference of performances between drivers of the same team.
+
+Link to the dataset:
+https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020
