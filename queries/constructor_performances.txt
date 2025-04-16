@@ -1,0 +1,25 @@
+1) db.constructor_results.aggregate([{$lookup: {from: "races", foreignField: "raceId", localField: "raceId", as: "race_info"}}, {$project: {_id: 0, constructor_id: 1, raceId: 1, points: 1, "race_info.year": 1}}])
+
+2) db.constructor_results.aggregate([{$lookup: {from: "races", foreignField: "raceId", localField: "raceId", as: "race_info"}}, {$lookup: {from: "constructors", foreignField: "constructorId", localField: "constructorId", as: "constructor_info"}}, {$project: {_id: 0, constructor_id: 1, raceId: 1, points: 1, "race_info.year": 1, "constructor_info.name": 1}}])
+
+3) db.constructor_results.aggregate([{$lookup: {from: "races", foreignField: "raceId", localField: "raceId", as: "race_info"}}, 
+                {$lookup: {from: "constructors", foreignField: "constructorId", localField: "constructorId", as: "constructor_info"}}, 
+                {$lookup: {from: "constructor_standings", foreignField: "constructorId", localField: "constructorId", as: "current_standings_info"}}, 
+                {$match: {"race_info.year": 2009}}, 
+                {$project: {_id: 0, constructor_id: 1, raceId: 1, points: 1, "race_info.year": 1, "constructor_info.name": 1, "current_standings_info.points": 1, "current_standings_info.position": 1 }}])
+(problematica, molti valori)
+
+
+db.constructor_results.aggregate([{$lookup: {from: "races", foreignField: "raceId", localField: "raceId", as: "race_info"}}, 
+                                {$lookup: {from: "constructors", foreignField: "constructorId", localField: "constructorId", as: "constructor_info"}}, 
+                                {$lookup: {from: "constructor_standings", foreignField: "constructorId", localField: "constructorId", as: "current_standings_info"}},
+                                {$project: {_id: 0, constructor_id: 1, raceId: 1, points: 1, "race_info.year": 1, "constructor_info.name": 1, "current_standings_info.constructorId":1, "current_standings_info.position":1, "current_standings_info.points": 1, "current_standings_info.raceId": 1}}, 
+                                {$match: {"race_info.year": 2009, "constructor_info.name": 'Ferrari'}}])
+
+view per vedere singola stagione-> db.createView("season_2009", "races", [{$match: {year: 2009}}, {$project: {_id: 0, year:1, round: 1, circuitId: 1, name: 1}}])
+
+join di view con constructor_standings e constructors -> db.season_2009.aggregate([{$lookup: {from: "constructor_standings", foreignField: "raceId", localField: "raceId", as: "constructor_standings"}}, {$lookup: {from: "constructors", foreignField: "constructorId", localField: "constructor_standings.constructorId", as: "constructor_info"}}, {$project: {_id: 0, round: 1, "constructor_info.name": 1, "constructor_standings.position": 1, "constructor_standings.points": 1}}]).pretty()
+
+db.constructors.aggregate({$lookup: {from: "constructor_standings", foreignField: "constructorId", localField: "constructorId", pipeline: [{$project: {_id:0, raceId: 1, points: 1, position: 1}}], as: "standings"}}, {$project: {_id: 0, name: 1, "standings": 1}})
+
+FORSE FUNZIONA: db.constructors.aggregate({$lookup: {from: "constructor_standings", foreignField: "constructorId", localField: "constructorId", pipeline: [{$project: {_id:0, raceId: 1, points: 1, position: 1}}], as: "standings"}}, {$lookup: {from: "season_2009", foreignField: "raceId", localField: "standings.raceId", as: "season_2009_standings"}}, {$project: {_id:0, name:1, "season_2009_standings": 1}})
