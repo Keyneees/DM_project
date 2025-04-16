@@ -23,3 +23,10 @@ join di view con constructor_standings e constructors -> db.season_2009.aggregat
 db.constructors.aggregate({$lookup: {from: "constructor_standings", foreignField: "constructorId", localField: "constructorId", pipeline: [{$project: {_id:0, raceId: 1, points: 1, position: 1}}], as: "standings"}}, {$project: {_id: 0, name: 1, "standings": 1}})
 
 FORSE FUNZIONA: db.constructors.aggregate({$lookup: {from: "constructor_standings", foreignField: "constructorId", localField: "constructorId", pipeline: [{$project: {_id:0, raceId: 1, points: 1, position: 1}}], as: "standings"}}, {$lookup: {from: "season_2009", foreignField: "raceId", localField: "standings.raceId", as: "season_2009_standings"}}, {$project: {_id:0, name:1, "season_2009_standings": 1}})
+
+
+!!!MIKE
+db.constructors.aggregate([{$lookup:{from:"constructor_results", foreignField:"constructorId", localField:"constructorId", as: "constructors_results"}}, {$lookup: {from:"races", foreignField: "raceId", localField:"constructors_result.raceId", as:"season"}}, {$match:{"season.raceId":"constructors_results.raceId"}}, {$project:{_id:0, name:1, "constructors_results.raceId":1}},])
+
+db.constructors.aggregate([{$lookup:{from:"constructor_results", foreignField:"constructorId", localField:"constructorId", as: "constructors_results"}}, {$lookup: {from:"races", foreignField: "raceId", localField:"constructors_results.raceId", as:"season"}}, {$match:{$expr:{$eq:[{$getField:"season.raceId"}, {$getField:"constructors_results.raceId"}]}}}, {$match:{"season.year":2009}}, {$project:{_id:0, name:1, "season.raceId":1}}])
+(brawn gp 17)
