@@ -30,3 +30,12 @@ db.constructors.aggregate([{$lookup:{from:"constructor_results", foreignField:"c
 
 db.constructors.aggregate([{$lookup:{from:"constructor_results", foreignField:"constructorId", localField:"constructorId", as: "constructors_results"}}, {$lookup: {from:"races", foreignField: "raceId", localField:"constructors_results.raceId", as:"season"}}, {$match:{$expr:{$eq:[{$getField:"season.raceId"}, {$getField:"constructors_results.raceId"}]}}}, {$match:{"season.year":2009}}, {$project:{_id:0, name:1, "season.raceId":1}}])
 (brawn gp 17)
+
+
+
+!! LOLLO
+db.createView("season_2009", "races", [{$match: {year:2009}}, {$project: {_id: 0, raceId: 1, round: 1, name: 1}}])
+
+db.createView("season_2009_detailed", "season_2009", [{$lookup: {from: "constructor_standings", foreignField: "raceId", localField: "raceId", as: "constructor_standings"}}, {$project: {_id: 0, raceId: 1, round: 1, name: 1, "constructor_standings.constructorId": 1, "constructor_standings.points": 1, "constructor_standings.position": 1, "constructor_standings.wins": 1}}])
+
+db.createView("detailed_constructors_2009", "constructors", [{$lookup: {from: "season_2009_detailed", foreignField: "constructor_standings.constructorId", localField: "constructorId", as: "season_2009_standings"}}])
