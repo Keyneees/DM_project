@@ -1,0 +1,40 @@
+db.results.aggregate([{$lookup: 
+            {from: "races", foreignField:"raceId", localField:"raceId", as: "season"}},
+            {$lookup:
+            {from:"drivers", foreignField:"driverId", localField:"driverId", as:"driver"}}, 
+            {$project: {_id:0, "driver.forename":1, "driver.surname":1, positionText:1, raceId:1, "season.year":1}}, 
+            {$match:{"season.year":2021}}])
+
+
+db.drivers.aggregate([
+  {
+    $lookup: {
+      from: "results",
+      localField: "driverId",
+      foreignField: "driverId",
+      as: "season_results"
+    }
+  },
+  {
+    $lookup: {
+      from: "races",
+      let: { resultRaceIds: "$season_results.raceId" },
+      pipeline: [
+        { $match: { $expr: { $in: ["$raceId", "$$resultRaceIds"] } } }
+      ],
+      as: "season"
+    }
+  },
+  {
+    $match: { "season.year": 2021 }
+  },
+  {
+    $project: {
+      _id: 0,
+      forename: 1,
+      surname: 1,
+      "season_results.position": 1,
+      "season.year": 1
+    }
+  }
+]);
