@@ -1,0 +1,64 @@
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'F1.races',
+    parsedQuery: {
+      year: {
+        '$eq': 2021
+      }
+    },
+    indexFilterSet: false,
+    queryHash: '1E2C8188',
+    planCacheShapeHash: '1E2C8188',
+    planCacheKey: '8F47B638',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: {
+        year: {
+          '$eq': 2021
+        }
+      },
+      direction: 'forward'
+    },
+    rejectedPlans: []
+  },
+  queryShapeHash: 'E450E775E87454F83BA29B6A625112E8FE47D3CB0203D6E1204E4298F1821D19',
+  command: {
+    find: 'races',
+    filter: {
+      year: 2021
+    },
+    '$db': 'F1'
+  },
+  serverInfo: {
+    host: 'michele-HP-ProBook-450-G6',
+    port: 27017,
+    version: '8.0.5',
+    gitVersion: 'cb9e2e5e552ee39dea1e39d7859336456d0c9820'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+
+output of db.races.find({year:2021}).explain()
+
+
+!!!AGGIUNGERE L'INDICE SU races
+db.races.createIndex({year:1})

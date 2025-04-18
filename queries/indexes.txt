@@ -1,0 +1,2 @@
+db.races.createIndex({year:1})
+db.driver_standings.createIndex({driverId:1})
