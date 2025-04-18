@@ -38,3 +38,8 @@ db.drivers.aggregate([
     }
   }
 ]);
+
+
+//Valuta la media delle posizioni dato un anno
+db.drivers.aggregate([{$lookup: {from: "results", let: { driverId: "$driverId" }, pipeline: [{$match: {$expr: { $eq: ["$driverId", "$$driverId"] }}}, {$lookup: {from: "races", localField: "raceId", foreignField: "raceId", as: "race"}}, { $unwind: "$race" }, {$match: {"race.year": 2021}}], as: "season_results"}}, {$match: {"season_results.0": { $exists: true } // Only keep drivers who have 2021 results}},{$project: {_id: 0, forename: 1, surname: 1, avgPosition: {$avg:{$map:{input: "$season_results", as: "results", in: {$toInt: "$$results.positionOrder"}}}}}}]);
+
