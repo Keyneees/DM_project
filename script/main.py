@@ -2,7 +2,9 @@
 import pymongo as mongo
 
 from champion_victory import ChampionVictoriesQuery
+
 from season_points import SeasonPoints
+from scoreboard_season import ScoreboardSeason
 
 # global
 SRV_CONNECTION = "mongodb+srv://"
@@ -24,8 +26,13 @@ if __name__ == "__main__":
 			connected=True
 		except:
 			print("Connection failed, please try again")
-		
-	db_list=client.list_database_names()
+   
+	try:
+		db_list = client.list_database_names()
+	except Exception as e:
+		print("Error during connection, gracefully terminating...")
+		exit(1)
+  
 	if(DB in db_list):
 		print(f"{DB} available")
 	else:
@@ -59,17 +66,23 @@ if __name__ == "__main__":
     
 		match number:
 			case 1:
-				print("Given a season, show how the constrcutors leaderboard changes")
+				print(" > Given a season, show how the constrcutors leaderboard changes")
+				query_1  = ScoreboardSeason(db)
+				query_1.query()
+    
 			case 2:
-				print("For all the seasons, show the number of victories of the champion of the world (either driver or constructor)")
+				print(" > For all the seasons, show the number of victories of the champion of the world (either driver or constructor)")
 				query_2=ChampionVictoriesQuery(db)
 				query_2.query()
+    
 			case 3:
-				print("Given a constructor, show the points scored in all the seasons it partecipated")
+				print(" > Given a constructor, show the points scored in all the seasons it partecipated")
 				query_3 = SeasonPoints(db)
 				query_3.query()
+    
 			case 4:
-				print("Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
+				print(" > Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
+    
 			case _:
 				print("Closing the connection")
 				client.close()
