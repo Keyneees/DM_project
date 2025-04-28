@@ -7,28 +7,22 @@ SRV_CONNECTION = "mongodb+srv://"
 CLUSTER_HOST ="cluster0.mqgq6xr.mongodb.net/"
 DB = "f1"
 
-# db call
-client = mongo.MongoClient(ADDR)
-db = client[DB]
-
 # main
 if __name__ == "__main__":
 	print("Welcome to 'Data Management project:F1 Data'")
 	print("Please enter username and password to connect to the database")
-	username=input("username: ")
-	password=input("Password: ")
 	connected=False
 
 	while not connected:
+		username=input("username: ")
+		password=input("Password: ")
 		try:
 			client=mongo.MongoClient(SRV_CONNECTION+username+":"+password+"@"+CLUSTER_HOST)
 			print("Connection successful")
 			connected=True
 		except:
 			print("Connection failed, please try again")
-			username=input("username: ")
-			password=input("Password: ")
-	
+		
 	db_list=client.list_database_names()
 	if(DB in db_list):
 		print(f"{DB} available")
