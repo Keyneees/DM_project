@@ -1,6 +1,5 @@
 # imports
 import pymongo as mongo
-import matplotlib.pyplot as plt
 
 # global
 SRV_CONNECTION = "mongodb+srv://"
@@ -14,7 +13,7 @@ if __name__ == "__main__":
 	connected=False
 
 	while not connected:
-		username=input("username: ")
+		username=input("Username: ")
 		password=input("Password: ")
 		try:
 			client=mongo.MongoClient(SRV_CONNECTION+username+":"+password+"@"+CLUSTER_HOST)
@@ -44,7 +43,7 @@ if __name__ == "__main__":
 			print("4 - Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
 			print("5 - Exit")
 			
-			number=input("Insert number:")
+			number=input("Insert number: ")
 			if number.isnumeric():
 				number=int(number)
 				if number>0 and number<6:
