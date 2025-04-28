@@ -6,6 +6,10 @@
     db.constructors_2009_coll.deleteMany({season_2009_standings: {$eq: []}})
     db.constructors_2009_coll.aggregate([{$project: {standings_2009: {$map: {input: "$season_2009_standings", as: "race", in: { raceId: "$$race.raceId", round: "$$race.round", name: "$$race.name", constructor_standings: {$filter: {input: "$$race.constructor_standings", as: "standing", cond: { $eq: ["$$standing.constructorId", "$constructorId"] }}}}}}, name: 1, nationality: 1, _id: 0, constructorId: 1}}])
     db.createView("constructors_2009_standings_view", "constructors_2009_coll", ([{$project: {standings_2009: {$map: {input: "$season_2009_standings", as: "race", in: { raceId: "$$race.raceId", round: "$$race.round", name: "$$race.name", constructor_standings: {$filter: {input: "$$race.constructor_standings", as: "standing", cond: { $eq: ["$$standing.constructorId", "$constructorId"] }}}}}}, name: 1, nationality: 1, _id: 0, constructorId: 1}}]))
+    
+    ** versione aggiornata e senza view:
+    db.races.aggregate([{$match: {year: 2012}}, {$lookup: {from: "constructor_standings", localField: "raceId", foreignField: "raceId", as: "constructor_standings" }}, {$unwind: "$constructor_standings"}, {$lookup: {from: "constructors", foreignField: "constructorId", localField: "constructor_standings.constructorId", as: "constructor_info"}}, {$project: {_id: 0, round: 1, name: 1, "constructor_name": "$constructor_info.name", "constructor_points": "$constructor_standings.points"}}, {$group: {_id: "$round", standings: {$push: {name: "$constructor_name", points: "$constructor_points"}}}}, {$sort: {_id: 1}}])
+    
 
     // ANDAMENTO WEEKEND
     db.createView("season_2009", "races", [{$match: {year:2009}}, {$project: {_id: 0, raceId: 1, round: 1, name: 1}}])
