@@ -1,6 +1,7 @@
 # imports
 import pymongo as mongo
 
+from champion_victory import ChampionVictoriesQuery
 # global
 SRV_CONNECTION = "mongodb+srv://"
 CLUSTER_HOST ="cluster0.mqgq6xr.mongodb.net/"
@@ -58,6 +59,8 @@ if __name__ == "__main__":
 				print("Given a season, show how the constrcutors leaderboard changes")
 			case 2:
 				print("For all the seasons, show the number of victories of the champion of the world (either driver or constructor)")
+				query_2=ChampionVictoriesQuery(db)
+				query_2.query()
 			case 3:
 				print("Given a constructor, show the points scored in all the seasons it partecipated")
 			case 4:
