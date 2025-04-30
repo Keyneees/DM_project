@@ -5,8 +5,17 @@ constructor standingins -> raceId -
 constructor standingins -> construcotid -
 constructor standingins -> results -
 
+commands:
+    db.constructor_standings.createIndex({raceId: 1})
+    db.constructor_standings.createIndex({constructorId: 1})
+    db.constructor_standings.createIndex({results: 1})
+
 constructors -> constructorId -
 constructors -> name -
+
+commands:
+    db.constructors.createIndex({constructorId: 1})
+    db.constructors.createIndex({name: 1})
 
 db.driver_standings.createIndex({driverId:1})
 db.driver_standings.createIndex({raceId:1})
@@ -16,12 +25,26 @@ db.drivers.createIndex({driverId:1})
 races -> raceId -
 races -> year, round -
 
+commands: 
+    db.races.createIndex({year: 1, round: 1})
+    db.races.createIndex({year: 1})
+    db.races.createIndex({raceId: 1})
+
 results -> construcotid -
 results -> statusId -
 results -> raceId -
 results -> driverId -
 
+commands:
+    db.results.createIndex({driverId: 1})
+    db.results.createIndex({raceId: 1})
+    db.results.createIndex({constructorId: 1})
+    db.results.createIndex({statusId: 1})
+
 bad_status -> statusId -
+
+commands:
+    db.bad_status.createIndex({statusId: 1})
 
 db.pit_stops.createIndex({raceId:1, driverId:1})
 
