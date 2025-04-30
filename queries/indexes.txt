@@ -1,5 +1,5 @@
 db.races.createIndex({year:1}) -
-db.driver_standings.createIndex({driverId:1}) -
+
 //TODO
 constructor standingins -> raceId -
 constructor standingins -> construcotid -
@@ -8,9 +8,10 @@ constructor standingins -> results -
 constructors -> constructorId -
 constructors -> name -
 
-drivers_standnings -> raceId -
+db.driver_standings.createIndex({driverId:1})
+db.driver_standings.createIndex({raceId:1})
 
-drivers -> driverId -
+db.drivers.createIndex({driverId:1})
 
 races -> raceId -
 races -> year, round -
@@ -22,6 +23,6 @@ results -> driverId -
 
 bad_status -> statusId -
 
-pit_stops -> driverId, raceId -
+db.pit_stops.createIndex({raceId:1, driverId:1})
 
-lap_times -> driverId, raceId -
+db.lap_times.createIndex({raceId:1, driverId:1})
