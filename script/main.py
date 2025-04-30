@@ -1,10 +1,10 @@
 # imports
 import pymongo as mongo
 
-from champion_victory import ChampionVictoriesQuery
-
 from season_points import SeasonPoints
+from champion_victory import ChampionVictoriesQuery
 from scoreboard_season import ScoreboardSeason
+from pit_stops import PitStopsQuery
 
 # global
 SRV_CONNECTION = "mongodb+srv://"
@@ -82,7 +82,8 @@ if __name__ == "__main__":
     
 			case 4:
 				print(" > Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
-    
+				query_4=PitStopsQuery(db)
+				query_4.query()
 			case _:
 				print("Closing the connection")
 				client.close()
