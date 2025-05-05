@@ -1,10 +1,12 @@
 # imports
 import pymongo as mongo
+import getpass
 
 from season_points import SeasonPoints
 from champion_victory import ChampionVictoriesQuery
 from scoreboard_season import ScoreboardSeason
 from pit_stops import PitStopsQuery
+from pilots_point import PilotPoints
 
 # global
 SRV_CONNECTION = "mongodb+srv://"
@@ -19,7 +21,7 @@ if __name__ == "__main__":
 
 	while not connected:
 		username=input("Username: ")
-		password=input("Password: ")
+		password=getpass.getpass("Password: ")
 		try:
 			client=mongo.MongoClient(SRV_CONNECTION+username+":"+password+"@"+CLUSTER_HOST)
 			print("Connection successful")
@@ -51,13 +53,14 @@ if __name__ == "__main__":
 			print("2 - For all the seasons, show the number of victories of the champion of the world (either driver or constructor)")
 			print("3 - Given a constructor, show the points scored in all the seasons it partecipated")
 			print("4 - Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
-			print("5 - Exit")
+			print("5 - Given a pilot, show the average points scored per race per constructor for which he has run")
+			print("6 - Exit")
 			print()
 			
 			number=input("Insert number: ")
 			if number.isnumeric():
 				number=int(number)
-				if number>0 and number<6:
+				if number>0 and number<7:
 					passed=True
 				else:
 					print("Wrong number inserted")
@@ -84,6 +87,10 @@ if __name__ == "__main__":
 				print(" > Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
 				query_4=PitStopsQuery(db)
 				query_4.query()
+			case 5:
+				print(" > Given a pilot, show the average points scored per race per constructor for which he has run")
+				query_5=PilotPoints(db)
+				query_5.query()
 			case _:
 				print("Closing the connection")
 				client.close()
