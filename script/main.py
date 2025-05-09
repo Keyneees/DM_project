@@ -15,7 +15,15 @@ DB = "f1"
 
 # main
 if __name__ == "__main__":
-	print("Welcome to 'Data Management project:F1 Data'")
+	print("     _______    ____                      ____")
+	print("    /  ____/ __/   /                     /_/_/\____")
+	print("   / /___   /__   /     __     __       /_/_/_/_/_/")
+	print("  /  ____/    /  /     /  \   /  \     /_/_/_/_/_/")
+	print(" /  /      __/  /__   /   /  /--<     /     \_/_/")
+	print("/__/      /_______/  /___/  /___/    /\n")
+	print("==================================================")
+	print("|| Welcome to 'Data Management project:F1 Data' ||")
+	print("==================================================\n")
 	print("Please enter username and password to connect to the database")
 	connected=False
 
@@ -48,13 +56,14 @@ if __name__ == "__main__":
 	while not exit:
 		passed=False
 		while not passed:
-			print("Insert one of the following number to choose an action:")
-			print("1 - Given a season, show how the constrcutors leaderboard changes")
-			print("2 - For all the seasons, show the number of victories of the champion of the world (either driver or constructor)")
-			print("3 - Given a constructor, show the points scored in all the seasons it partecipated")
-			print("4 - Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
-			print("5 - Given a pilot, show the average points scored per race per constructor for which he has run")
-			print("6 - Exit")
+      
+			print("\n Insert one of the following number to choose an action:")
+			print("   1 - Given a season, show how the constrcutors leaderboard changes")
+			print("   2 - For all the seasons, show the number of victories of the champion of the world (either driver or constructor)")
+			print("   3 - Given a constructor, show the points scored in all the seasons it partecipated")
+			print("   4 - Given a season, show for each weekend the number of pit stops done and the points scored by each constrcutor")
+			print("   5 - Given a pilot, show the average points scored per race per constructor for which he has run")
+			print("   6 - Exit")
 			print()
 			
 			number=input("Insert number: ")
