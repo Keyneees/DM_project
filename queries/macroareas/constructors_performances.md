@@ -110,7 +110,7 @@
     ])
 
 ## Topic: "team points trend of a team along seasons"
-> The following query is used inside the file ___season_points.py___, where "constructor" is the name of the team given as input by the user
+> The following query is used inside the file ***season_points.py***, where "constructor" is the name of the team given as input by the user
 
     db.results.aggregate([
         { $lookup: {
